@@ -1,6 +1,12 @@
-export default function About()
-{
-    return(
-        <h1>About</h1>
-    )
-}
+
+export default function About() {
+    
+    return (
+      <>
+        <div className="con">
+          <img src="/images/about.png" alt="about" />
+        </div>
+      </>
+    );
+  }
+  

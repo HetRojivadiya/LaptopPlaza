@@ -5,9 +5,9 @@ export default function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           LaptopPlaza
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -50,10 +50,10 @@ export default function Header() {
                 </button>
               </form>
             </div>
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center my-2">
             
             <Link className="btn btn-outline-info mx-2" to="/mycart">MyCart</Link>
-            <Link className="btn btn-outline-light" to="/login">Login</Link>
+            <Link className="btn btn-outline-light mx-1" to="/login">Login</Link>
           </div>
         </div>
       </div>

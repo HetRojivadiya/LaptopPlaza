@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom"
 
 export default function MyCart({ addCart }) {
   const [products, setProducts] = useState([]);
@@ -43,6 +44,7 @@ export default function MyCart({ addCart }) {
                       src={process.env.PUBLIC_URL + "/images/cart.jpg"}
                       class="card-img-top mx-4"
                       style={{ width: "80%", height: "80%" }}
+                      alt="hg"
                     />
                     <div
                       class="card-body d-flex flex-column align-items-center justify-content-center"
@@ -53,39 +55,15 @@ export default function MyCart({ addCart }) {
                         Add something to make me happy :)
                       </p>
 
-                      <button class="btn btn-primary ">Go somewhere</button>
+                      <Link class="btn btn-primary" to="/">Go somewhere</Link>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-6">
-              <div
-                className="container my-2"
-                style={{ fontFamily: "cursive", border: "2px solid black" }}
-              >
-                <div>
-                  <h1>Payment Details</h1>
-                  <div className="my-4">
-                    {products.map((product) => (
-                      <div key={product.id} className="col-12 mx-4 my-2">
-                        <div className="container">
-                          <div className="row">
-                            <h5 className="card-title col-6">{product.name}</h5>
-                            <h5 className="card-text col-6">
-                              Price: ${product.price}
-                            </h5>
-                          </div>
-                          <hr />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <h2 className="mx-5">Total Price : {total}</h2>
-                </div>
               </div>
-            </div>
-          </div>
+             </div>
         </div>
       ) : (
         <div className="container">
@@ -179,7 +157,9 @@ export default function MyCart({ addCart }) {
                         id="exampleFormControlTextarea1"
                         rows="3"
                       ></textarea>
+                     
                     </div>
+                    <button className="btn btn-success">Procced to Pay</button>
                   </div>
                 </div>
               </div>

@@ -1,36 +1,26 @@
 export default function Contact()
 {
     return(
-        <div className="padding" style={{padding: "35px"}}>
-    <div className="container1">
-        <div style={{textAlign:"center"}}>
-          <h2>Contact Us</h2>
-          
-        </div>
-        <div className="row1">
-          <div className="column1">
-            <img src="/7.laptop-ecommerce/public/images/contact-us.jpg" style={{height:"80%",width:"90%"}}/>
+      <div class="container py-4 px-5">
+        <form id="contactForm" style={{ background: "linear-gradient(to right, #ee5a6f, #f29263)"}}>
+          <div className="p-5">
+          <div class="mb-3">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" placeholder="Name" />
           </div>
-          <div className="column1">
-            <form action="/action_page.php">
-              <label for="fname">First Name</label>
-              <input type="text" id="fname" name="firstname" placeholder="Your name.."/>
-              <label for="lname">Last Name</label>
-              <input type="text" id="lname" name="lastname" placeholder="Your last name.."/>
-              <label for="country">Country</label>
-              <select id="country" name="country">
-                <option value="india"> India</option>
-                <option value="australia">Australia</option>
-                <option value="canada">Canada</option>
-                <option value="usa">USA</option>
-              </select>
-              <label for="subject">Subject</label>
-              <textarea id="subject" name="subject" placeholder="Write something.." style={{height:"170px"}}></textarea>
-              <input type="submit" value="Submit"/>
-            </form>
+          <div class="mb-3">
+            <label class="form-label" for="emailAddress">Email Address</label>
+            <input class="form-control" id="emailAddress" type="email" placeholder="Email Address" />
           </div>
-        </div>
+          <div class="mb-3">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-control" id="message"  style={{ height: "150px" }}  type="text" placeholder="Message"></textarea>
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+          </div>
+          </div>
+        </form>
       </div>
-    </div>
     )
 }

@@ -1,220 +1,33 @@
+import "./Footer.css"
 export default function Footer() {
   return (
-    <> <footer className="bg-dark text-center text-white my-4">
-      <div className="container p-4">
-        <section className="mb-4">
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-facebook-f"></i>
-          </a>
-
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-twitter"></i>
-          </a>
-
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-google"></i>
-          </a>
-
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-instagram"></i>
-          </a>
-
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-linkedin-in"></i>
-          </a>
-
-          <a
-            className="btn btn-outline-light btn-floating m-1"
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-github"></i>
-          </a>
-        </section>
-
-        <section className="">
-          <form action="">
-            <div className="row d-flex justify-content-center">
-              <div className="col-auto">
-                <p className="pt-2">
-                  <strong>Sign up for our newsletter</strong>
-                </p>
-              </div>
-
-              <div className="col-md-5 col-12">
-                <div className="form-outline form-white mb-4">
-                  <input
-                    type="email"
-                    id="form5Example21"
-                    className="form-control"
-                  />
-                  <label className="form-label" >
-                    Email address
-                  </label>
-                </div>
-              </div>
-
-              <div className="col-auto">
-                <button type="submit" className="btn btn-outline-light mb-4">
-                  Subscribe
-                </button>
-              </div>
+    <><footer class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>About Us</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>
             </div>
-          </form>
-        </section>
-
-        <section className="mb-4">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            distinctio earum repellat quaerat voluptatibus placeat nam, commodi
-            optio pariatur est quia magnam eum harum corrupti dicta, aliquam
-            sequi voluptate quas.
-          </p>
-        </section>
-
-        <section className="">
-          <div className="row">
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
+            <div class="col-md-4">
+                <h3>Quick Links</h3>
+                <ul class="list-unstyled">
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Services</li>
+                    <li>Contact</li>
+                </ul>
             </div>
-
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
+            <div class="col-md-4">
+                <h3>Contact Info</h3>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Street, City, Country</li>
+                    <li><i class="fas fa-envelope"></i> example@example.com</li>
+                    <li><i class="fas fa-phone"></i> +1234567890</li>
+                </ul>
             </div>
-
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </div>
-      <div
-        className="text-center p-3"
-        
-        style={{background:"rgba(0, 0, 0, 0.2)"}}
-      >
-        © 2020 Copyright:
-        <a className="text-white" href="https://mdbootstrap.com/">
-          MDBootstrap.com
-        </a>
-      </div>
-    </footer>
+        </div>
+    </div>
+</footer>
     </>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import "./Home.css"
+import { useNavigate } from "react-router-dom";
 
-export default function Home({ setAddToCart }) {
+export default function Home({ setAddToCart,login }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -16,6 +17,12 @@ export default function Home({ setAddToCart }) {
     }
     fetchData();
   }, []);
+
+  const nav = useNavigate();
+
+  const setRedirect =() => { 
+    nav("/login");
+  }
 
   return (
     <div className="container mt-5">
@@ -35,7 +42,7 @@ export default function Home({ setAddToCart }) {
                 <p className="card-text">Storage: {product.storage}</p>
                 <p className="card-text">Rating: {product.rating}</p>
                 <p className="card-text">Available in stock: {product.available_in_stock}</p>
-                <button
+                { login ? (<button
                   className='btn btn-primary'
                   onClick={() => {
                     setAddToCart(prevAddCart => [...prevAddCart, product.id]);
@@ -43,7 +50,13 @@ export default function Home({ setAddToCart }) {
                   }}
                 >
                   Add To Cart
-                </button>
+                </button>):(<button
+                  className='btn btn-primary'
+                  onClick={setRedirect}
+                >
+                  Add To Cart
+                </button>)}
+                
               </div>
             </div>
           </div>
@@ -51,4 +64,4 @@ export default function Home({ setAddToCart }) {
       </div>
     </div>
   );
-}
+} 
