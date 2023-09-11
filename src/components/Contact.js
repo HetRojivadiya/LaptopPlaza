@@ -1,8 +1,8 @@
 export default function Contact()
 {
     return(
-      <div class="container py-4 px-5">
-        <form id="contactForm" style={{ background: "linear-gradient(to right, #ee5a6f, #f29263)"}}>
+      <div class="container py-4 px-5 ">
+        <form id="contactForm" style={{ background: "linear-gradient(to right, #ee5a6f, #f29263)",borderRadius:"20px"}}>
           <div className="p-5">
           <div class="mb-3">
             <label class="form-label" for="name">Name</label>

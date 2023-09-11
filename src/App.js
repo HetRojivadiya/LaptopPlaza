@@ -24,6 +24,7 @@ function App() {
       <Route path="/login" element={<Login setLogin={setLogin}/>} />
     </Routes>
     <Footer/>
+    
     </BrowserRouter>
   );
 }

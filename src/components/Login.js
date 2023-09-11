@@ -7,7 +7,7 @@ export default function Login({setLogin}) {
           <div class="card bg-white">
             <div class="card-body p-5">
               <form class="mb-3 ">
-                <h2 class="fw-bold">LaptopPlaza</h2>
+                <h2 class="fw-bold">LaptopPlaza.Login</h2>
                 <div class="mb-3 my-3">
                   <label for="email" class="form-label ">Email address</label>
                   <input type="email" class="form-control" id="email" placeholder="name@example.com"/>
