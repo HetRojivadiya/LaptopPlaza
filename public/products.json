@@ -8,7 +8,7 @@
       "storage": "512GB SSD",
       "image_url": "./images/1.png",
       "rating": 4.8,
-      "available_in_stock": 15
+      "quantity": 15
     },
     {
       "id": 2,
@@ -18,7 +18,7 @@
       "storage": "256GB SSD",
       "image_url": "./images/2.jpg",
       "rating": 4.5,
-      "available_in_stock": 0
+      "quantity": 0
     },
     {
       "id": 3,
@@ -28,7 +28,7 @@
       "storage": "1TB SSD",
       "image_url": "./images/3.jpg",
       "rating": 4.7,
-      "available_in_stock": 8
+      "quantity": 8
     },
     {
       "id": 4,
@@ -38,7 +38,7 @@
       "storage": "1TB SSD",
       "image_url": "./images/4.jpg",
       "rating": 4.9,
-      "available_in_stock": 5
+      "quantity": 5
     },
     {
       "id": 5,
@@ -48,7 +48,7 @@
       "storage": "512GB SSD",
       "image_url": "./images/5.jpg",
       "rating": 4.6,
-      "available_in_stock": 12
+      "quantity": 12
     },
     {
       "id": 6,
@@ -58,7 +58,7 @@
       "storage": "128GB SSD",
       "image_url": "./images/6.jpg",
       "rating": 4.2,
-      "available_in_stock": 20
+      "quantity": 20
     }
   ]
 }

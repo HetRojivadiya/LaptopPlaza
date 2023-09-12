@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export default function MyCart({ addCart }) {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [prevQuantity,setPrevQuantity] = useState([]);
 
   useEffect(() => {
     if (addCart && addCart.length > 0) {
@@ -20,7 +21,8 @@ export default function MyCart({ addCart }) {
 
           let totalPrice = 0;
           for (let i = 0; i < selectedProducts.length; i++) {
-            totalPrice += selectedProducts[i].price;
+            totalPrice +=   selectedProducts[i] .price;
+            setPrevQuantity(setPrevQuantity[selectedProducts[i].id]=0);
           }
           setTotal(totalPrice.toFixed(2));
         } catch (error) {
@@ -31,6 +33,18 @@ export default function MyCart({ addCart }) {
     }
   }, [addCart]);
 
+  const handleQuantityChange = (product, newQuantity) => {
+    
+    if(newQuantity > prevQuantity[product.id]){
+    setTotal((parseFloat(total)+product.price).toFixed(2));
+    product.quantity=product.quantity-1;
+    setPrevQuantity(newQuantity);
+    }else{
+    setTotal(total-product.price);
+    product.quantity=product.quantity+1;
+    setPrevQuantity(prevQuantity[product.id]=newQuantity);
+    }
+  };
   return (
     <>
       {total === 0 ? (
@@ -55,15 +69,16 @@ export default function MyCart({ addCart }) {
                         Add something to make me happy :)
                       </p>
 
-                      <Link class="btn btn-primary" to="/">Go somewhere</Link>
+                      <Link class="btn btn-primary" to="/">
+                        Go somewhere
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-6">
-              </div>
-             </div>
+            <div className="col-6"></div>
+          </div>
         </div>
       ) : (
         <div className="container">
@@ -89,7 +104,22 @@ export default function MyCart({ addCart }) {
                         />
                         <div className="my-5">
                           <h5 className="card-title">{product.name}</h5>
-                          <p className="card-text">Price: ${product.price}</p>
+                          <p className="card-text">Price: ${product.price}
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                         
+                            defaultValue={1}
+                            onChange={(e) =>
+                              handleQuantityChange(
+                                product,
+                                parseInt(e.target.value)
+                              )
+                            }
+                            className="quantity-field text-center w-50"
+                          />
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -109,15 +139,14 @@ export default function MyCart({ addCart }) {
                 <div>
                   <h1>Personal Details</h1>
                   <label for="exampleFormControlInput1" class="form-label">
-                        Name
-                      </label>
-                  <div className="d-flex" style={{marginTop:"-22px"}}>
+                    Name
+                  </label>
+                  <div className="d-flex" style={{ marginTop: "-22px" }}>
                     <input
                       className="form-control my-4 me-2"
                       type="text"
                       placeholder="First Name"
                       aria-label="default input example"
-                      
                     />
                     <input
                       className="form-control my-4"
@@ -143,7 +172,6 @@ export default function MyCart({ addCart }) {
                       type="text"
                       placeholder="Contact Number"
                       aria-label="default input example"
-                      
                     />
                     <div class="mb-3">
                       <label
@@ -157,7 +185,6 @@ export default function MyCart({ addCart }) {
                         id="exampleFormControlTextarea1"
                         rows="3"
                       ></textarea>
-                     
                     </div>
                     <button className="btn btn-success">Procced to Pay</button>
                   </div>

@@ -28,7 +28,6 @@ export default function Signup() {
                 <div>
                   <p class="mb-0  text-center">Already have an account? <a href="signup.html" class="text-primary fw-bold">Login</a></p>
                 </div>
-  
               </div>
             </div>
           </div>
