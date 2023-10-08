@@ -1,50 +1,70 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function MyCart({ addCart }) {
+export default function MyCart() {
   const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [prevQuantity,setPrevQuantity] = useState([]);
+  const [productQuantities, setProductQuantities] = useState({});
+  const [total, setTotal] = useState(0); // Add the total variable
+
+  const fetchProducts = () => {
+    fetch(`http://localhost:3001/myCart`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   useEffect(() => {
-    if (addCart && addCart.length > 0) {
-      async function fetchData() {
-        try {
-          const response = await fetch("/products.json");
-          const jsonData = await response.json();
-          const allProducts = jsonData.products;
+    fetchProducts();
+  }, []);
 
-          const selectedProducts = allProducts.filter((product) =>
-            addCart.includes(product.id)
-          );
-          setProducts(selectedProducts);
-
-          let totalPrice = 0;
-          for (let i = 0; i < selectedProducts.length; i++) {
-            totalPrice +=   selectedProducts[i] .price;
-            setPrevQuantity(setPrevQuantity[selectedProducts[i].id]=0);
-          }
-          setTotal(totalPrice.toFixed(2));
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-      fetchData();
+  useEffect(() => {
+    // Calculate the total price when the products or productQuantities state changes
+    let totalPrice = 0;
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const quantity = productQuantities[product.id] || 1; // Default to 1 if quantity is not set
+      totalPrice += parseFloat(product.price) * quantity;
     }
-  }, [addCart]);
+    setTotal(totalPrice.toFixed(2));
+  }, [products, productQuantities]);
 
-  const handleQuantityChange = (product, newQuantity) => {
-    
-    if(newQuantity > prevQuantity[product.id]){
-    setTotal((parseFloat(total)+product.price).toFixed(2));
-    product.quantity=product.quantity-1;
-    setPrevQuantity(newQuantity);
-    }else{
-    setTotal(total-product.price);
-    product.quantity=product.quantity+1;
-    setPrevQuantity(prevQuantity[product.id]=newQuantity);
-    }
+  const handleQuantityChange = (productId, quantity) => {
+    setProductQuantities({ ...productQuantities, [productId]: quantity });
   };
+
+  const removeProduct = (productId) => {
+    fetch(`http://localhost:3001/removeProduct/${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(() => {
+        console.log(
+          `Product with ID ${productId} Successfully Removed from Cart`
+        );
+        fetchProducts(); // Call fetchProducts to update the cart
+      })
+      .catch((error) => {
+        console.error("Error Remove from cart:", error);
+      });
+  };
+
   return (
     <>
       {total === 0 ? (
@@ -104,21 +124,28 @@ export default function MyCart({ addCart }) {
                         />
                         <div className="my-5">
                           <h5 className="card-title">{product.name}</h5>
-                          <p className="card-text">Price: ${product.price}
-                          <input
-                            type="number"
-                            min="1"
-                            max="10"
-                         
-                            defaultValue={1}
-                            onChange={(e) =>
-                              handleQuantityChange(
-                                product,
-                                parseInt(e.target.value)
-                              )
-                            }
-                            className="quantity-field text-center w-50"
-                          />
+                          <p className="card-text">
+                            Price: ${product.price}
+                            <input
+                              type="number"
+                              min="1"
+                              max="10"
+                              defaultValue={productQuantities[product.id] || 1}
+                              className="quantity-field text-center w-50 mx-3"
+                              onChange={(e) =>
+                                handleQuantityChange(
+                                  product.id,
+                                  parseInt(e.target.value)
+                                )
+                              }
+                            />
+                            <button
+                              className="btn btn-danger"
+                              style={{ height: "40px" }}
+                              onClick={() => removeProduct(product.id)}
+                            >
+                              Remove
+                            </button>
                           </p>
                         </div>
                       </div>

@@ -1,5 +1,4 @@
-{
-  "products": [
+[
     {
       "id": 1,
       "name": "Macbook pro ",
@@ -61,4 +60,4 @@
       "quantity": 20
     }
   ]
-}
+
