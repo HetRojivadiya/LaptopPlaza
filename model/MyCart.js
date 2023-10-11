@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const myCartSchema = new mongoose.Schema({
-    id :Number,
+    id : { type: Number ,required : true},
     name: { type: String, required: true },
     price: { type: Number, required: true },
     ram: String,

@@ -1,36 +1,108 @@
-export default function Login({setLogin}) {
-  return (
-    <div class="vh-100 d-flex justify-content-center align-items-center">
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          <div class="card bg-white">
-            <div class="card-body p-5">
-              <form class="mb-3 ">
-                <h2 class="fw-bold">LaptopPlaza.Login</h2>
-                <div class="mb-3 my-3">
-                  <label for="email" class="form-label ">Email address</label>
-                  <input type="email" class="form-control" id="email" placeholder="name@example.com"/>
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label ">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="*******"/>
-                </div>
-                <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
-                <div class="d-grid">
-                  <button class="btn btn-outline-dark" type="submit" onClick={(e)=>{e.preventDefault();setLogin(true)}}>Login</button>
-                </div>
-              </form>
-              <div>
-                <p class="mb-0  text-center">Don't have an account? <a href="signup.html" class="text-primary fw-bold">Sign
-                    Up</a></p>
-              </div>
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
+export default function Login({ setLogin }) {
+  const nav = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      console.log(response);
+      if (response==='auth') {
+        setLogin(true);
+
+        await fetch("http://localhost:3001/setSession")
+        .then(() => console.log("Session is set"))
+        .catch((err) => console.log(err));
+      
+        // await fetch("http://localhost:3001/getSession")
+        // .then((response) => console.log(response.username))
+        // .catch((err) => console.log(err));
+        
+        nav('/');
+        
+
+      } else {
+        // Handle authentication failure here, e.g., show an error message.
+        console.error('Authentication failed');
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      // Handle other errors, e.g., show an error message.
+    }
+  };
+
+  return (
+    <div className="vh-100 d-flex justify-content-center align-items-center">
+      <div className="container">
+        <div className="row d-flex justify-content-center">
+          <div className="col-12 col-md-8 col-lg-6">
+            <div className="card bg-white">
+              <div className="card-body p-5">
+                <form className="mb-3" onSubmit={handleLogin}>
+                  <h2 className="fw-bold">LaptopPlaza.Login</h2>
+                  <div className="mb-3 my-3">
+                    <label htmlFor="email" className="form-label">
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="name@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="*******"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <p className="small">
+                    <a className="text-primary" href="forget-password.html">
+                      Forgot password?
+                    </a>
+                  </p>
+                  <div className="d-grid">
+                    <button className="btn btn-outline-dark" type="submit">
+                      Login
+                    </button>
+                  </div>
+                </form>
+                <div>
+                  <p className="mb-0 text-center">
+                    Don't have an account?{' '}
+                    <a href="signup.html" className="text-primary fw-bold">
+                      Sign Up
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }

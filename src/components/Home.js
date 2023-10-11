@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home({ login }) {
   const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null); // State for the product being edited
 
   useEffect(() => {
     fetchProducts();
@@ -33,14 +34,40 @@ export default function Home({ login }) {
   };
 
   const addToCart = (product) => {
-    
-  
     fetch(`http://localhost:3001/addToCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(product),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+      .then(() => {
+        console.log(`${product.name} Successfully Added to Cart`);
+      })
+      .catch((error) => {
+        console.error("Error adding to cart:", error);
+      });
+  };
+
+  // Function to start editing a product
+  const startEditingProduct = (product) => {
+    setEditingProduct(product);
+  };
+
+  // Function to update the edited product
+  const updateProduct = (editedProduct) => {
+    fetch(`http://localhost:3001/editProduct/${editedProduct.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(editedProduct),
     })
       .then((response) => {
         if (!response.ok) {
@@ -49,11 +76,13 @@ export default function Home({ login }) {
         return response.json();
       })
       .then(() => {
-        console.log(`${product.name} Successfully Added to Cart`);
-        
+        console.log(`${editedProduct.name} Successfully Updated`);
+        // Clear the editing state
+        setEditingProduct(null);
+        fetchProducts();
       })
       .catch((error) => {
-        console.error("Error adding to cart:", error);
+        console.error("Error updating product:", error);
       });
   };
 
@@ -69,21 +98,107 @@ export default function Home({ login }) {
                 alt={product.name}
               />
               <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                <p className="card-text">Price: ${product.price}</p>
-                <p className="card-text">RAM: {product.ram}</p>
-                <p className="card-text">Storage: {product.storage}</p>
-                <p className="card-text">Rating: {product.rating}</p>
-                <p className="card-text">Available in stock: {product.available_in_stock}</p>
+                <h5 className="card-title">
+                  {editingProduct && editingProduct.id === product.id ? (
+                    <input
+                      type="text"
+                      value={editingProduct.name}
+                      onChange={(e) => {
+                        const editedProduct = { ...editingProduct, name: e.target.value };
+                        setEditingProduct(editedProduct);
+                      }}
+                    />
+                  ) : (
+                    product.name
+                  )}
+                </h5>
+                <p className="card-text">
+                  Price: 
+                  {editingProduct && editingProduct.id === product.id ? (
+                    <input
+                      type="number"
+                      value={editingProduct.price}
+                      onChange={(e) => {
+                        const editedProduct = { ...editingProduct, price: parseFloat(e.target.value) };
+                        setEditingProduct(editedProduct);
+                      }}
+                    />
+                  ) : (
+                    `$${product.price}`
+                  )}
+                </p>
+                <p className="card-text">
+                  RAM: 
+                  {editingProduct && editingProduct.id === product.id ? (
+                    <input
+                      type="text"
+                      value={editingProduct.ram}
+                      onChange={(e) => {
+                        const editedProduct = { ...editingProduct, ram: e.target.value };
+                        setEditingProduct(editedProduct);
+                      }}
+                    />
+                  ) : (
+                    product.ram
+                  )}
+                </p>
+                <p className="card-text">
+                  Storage: 
+                  {editingProduct && editingProduct.id === product.id ? (
+                    <input
+                      type="text"
+                      value={editingProduct.storage}
+                      onChange={(e) => {
+                        const editedProduct = { ...editingProduct, storage: e.target.value };
+                        setEditingProduct(editedProduct);
+                      }}
+                    />
+                  ) : (
+                    product.storage
+                  )}
+                </p>
+                <p className="card-text">
+                  Rating: 
+                  {editingProduct && editingProduct.id === product.id ? (
+                    <input
+                      type="number"
+                      value={editingProduct.rating}
+                      onChange={(e) => {
+                        const editedProduct = { ...editingProduct, rating: parseFloat(e.target.value) };
+                        setEditingProduct(editedProduct);
+                      }}
+                    />
+                  ) : (
+                    product.rating
+                  )}
+                </p>
+                
                 {login ? (
-                  <button
-                    className='btn btn-primary'
-                    onClick={() => {
-                      addToCart(product); 
-                    }}
-                  >
-                    Add To Cart
-                  </button>
+                  <div>
+                    <button
+                      className='btn btn-primary mr-2'
+                      onClick={() => {
+                        addToCart(product); 
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                    {editingProduct && editingProduct.id === product.id ? (
+                      <button
+                        className='btn btn-success mx-2'
+                        onClick={() => updateProduct(editingProduct)}
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        className='btn btn-warning mx-2'
+                        onClick={() => startEditingProduct(product)}
+                      >
+                        Edit Product
+                      </button>
+                    )}
+                  </div>
                 ) : (
                   <button
                     className='btn btn-primary'
