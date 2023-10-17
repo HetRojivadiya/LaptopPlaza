@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function MyCart() {
+export default function MyCart({token}) {
   const [products, setProducts] = useState([]);
   const [productQuantities, setProductQuantities] = useState({});
   const [total, setTotal] = useState(0); // Add the total variable
 
+
   const fetchProducts = () => {
-    fetch(`http://localhost:3001/myCart`)
+    fetch(`http://localhost:3001/myCart`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `${token}`, // Include the JWT token in the headers
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -67,7 +73,7 @@ export default function MyCart() {
 
   return (
     <>
-      {total === 0 ? (
+      {products.length === 0  ? (
         <div className="container">
           <div className="row">
             <div className="col-6 my-2" style={{ border: "2px solid black" }}>

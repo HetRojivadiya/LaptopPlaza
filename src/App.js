@@ -7,20 +7,29 @@ import Contact from "./components/Contact"
 import About from "./components/About"
 import MyCart from "./components/MyCart";
 import Login from "./components/Login";
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 
 
 function App() {
-  const [addCart, setAddToCart] = useState([]);
+  const [token, setToken] = useState(null);
   const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+    if(token){
+      setLogin(true);
+    }
+    
+  }, [setToken,setLogin]);
+
   return (
     <BrowserRouter>
     <Header/>
     <Routes>                                                                 
-      <Route path="/" element={<Home setAddToCart={setAddToCart} login={login}/>}/>
+      <Route path="/" element={<Home  login={login} setLogin={setLogin}/>}/>
       <Route path="/contact" element={<Contact/>}/>
       <Route path="/about" element={<About/>}/>
-      <Route path="/mycart" element={<MyCart addCart={addCart} />} />
+      <Route path="/mycart" element={<MyCart token={token}/>} />
       <Route path="/login" element={<Login setLogin={setLogin}/>} />
     </Routes>
     <Footer/>

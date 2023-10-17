@@ -1,37 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Login({ setLogin }) {
   const nav = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setLogin(true);
+      nav('/');
+    }
+  }, [setLogin, nav]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const response = await fetch("http://localhost:3001/login", {
+      const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
-      console.log(response);
-      if (response==='auth') {
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        // Store the token in localStorage
+        localStorage.setItem('token', token);
+        window.location.reload();
         setLogin(true);
-
-        await fetch("http://localhost:3001/setSession")
-        .then(() => console.log("Session is set"))
-        .catch((err) => console.log(err));
-      
-        // await fetch("http://localhost:3001/getSession")
-        // .then((response) => console.log(response.username))
-        // .catch((err) => console.log(err));
-        
-        nav('/');
-        
-
+       
       } else {
         // Handle authentication failure here, e.g., show an error message.
         console.error('Authentication failed');
@@ -41,7 +45,6 @@ export default function Login({ setLogin }) {
       // Handle other errors, e.g., show an error message.
     }
   };
-
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <div className="container">

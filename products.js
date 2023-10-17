@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const jwt = require('jsonwebtoken');
 const port = 3001;
 const laptopJSON = require('./public/products.json');
 const connectDB = require("./DB/Connection");
-const session = require('express-session');
 
 const uri ="mongodb+srv://hetrojivadiya999:hetrojivadiya@het.ioacmg7.mongodb.net/Laptops?retryWrites=true&w=majority";
 const laptopSchema = require('./model/Product_Model');
@@ -17,29 +17,6 @@ connectDB(uri);
 app.use(express.json());
 
 
-app.use(session({
-  secret: 'mysecret',
-  resave: false,
-  saveUninitialized: true,
-  
-}));
-
-// const corsOptions = {
-//   origin: 'http://localhost:3000', // Replace with the actual origin of your React app
-//   credentials: true, // Enable credentials (cookies)
-// };
-
-app.get("/getSession", async (req, res) => {
-  const username = req.session.username || "guest";
-    res.send('hello, ' + username);
-})
-
-app.get("/setSession", async (req, res) => {
-  req.session.username = 'het';
-  console.log("set");
-  res.json({ message: "Session is set" }); // Sending a JSON response
-});
-
 app.get('/fetch', async (req, res) => {
     
     const allProducts = await laptopSchema.find({});
@@ -48,15 +25,19 @@ app.get('/fetch', async (req, res) => {
    
 });
 
+
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;  
+  const { email, password } = req.body;
+
   try {
     const user = await userSchema.findOne({ email, password });
+
     if (user) {
-      console.log(user);
-      res.send("auth");
+      const token = jwt.sign({ userId: user._id , email: user.email}, 'your-secret-key', { expiresIn: '1h' });
+
+      res.json({ token });
     } else {
-      res.send("notauth");
+      res.status(401).json({ message: 'Authentication failed' });
     }
   } catch (err) {
     console.error("Error during login:", err);
@@ -64,31 +45,62 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get('/myCart', async (req, res) => {
-    
-  const allProducts = await myCartSchema.find({});
-  res.json(allProducts);
-   
-  });
+const requireAuth = (req, res, next) => {
+  console.log(req.header('Authorization'));
+  const token = req.header('Authorization');
 
-  app.post('/addToCart', async (req, res) => {
+  try {
+    const decoded = jwt.verify(token, 'your-secret-key');
+    console.log('Decoded Token:', decoded); // Log the decoded token
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
 
-    const product = {
-      id: req.body.id,
-      name: req.body.name,
-      price: req.body.price,
-      ram: req.body.ram,
-      storage: req.body.storage,
-      image_url: req.body.image_url,
-      rating: req.body.rating,
-      quantity: req.body.quantity
+
+
+app.post('/addToCart',requireAuth, async (req, res) => {
+  const userEmail = req.user.email; // Extract the user's email from the JWT token
+  console.log(userEmail);
+  const product = {
+    email: userEmail, // Include the user's email
+    id: req.body.id,
+    name: req.body.name,
+    price: req.body.price,
+    ram: req.body.ram,
+    storage: req.body.storage,
+    image_url: req.body.image_url,
+    rating: req.body.rating,
+    quantity: req.body.quantity,
   };
-  
-    myCartSchema.create(product)
-    .then(() => console.log("Added to cart"))
-    .catch((err) => console.log(err))
-    
-  });
+
+  myCartSchema.create(product)
+    .then(() => {
+      console.log('Added to cart');
+      res.json({ message: 'Product added to cart' });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+});
+
+
+
+app.get('/myCart', requireAuth, async (req, res) => {
+  const userEmail = req.user.email; 
+  try {
+    const userCartItems = await myCartSchema.find({ email: userEmail });
+    res.json(userCartItems);
+  } catch (error) {
+    console.error('Error fetching user cart:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
   app.put('/editProduct/:productId', async (req, res) => {
     try {

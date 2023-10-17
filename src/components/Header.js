@@ -1,7 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useState ,useEffect} from 'react';
 
 export default function Header() {
+  const [login,setLogin] = useState("Login");
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setLogin("Logout")
+      
+    }
+  }, [setLogin]);
+
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('token');
+    window.location.reload();
+    // Update the login state to 'Login'
+    setLogin('Login');
+  };
+  
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -53,7 +72,16 @@ export default function Header() {
           <div className="d-flex align-items-center my-2">
             
             <Link className="btn btn-outline-info mx-2" to="/mycart">MyCart</Link>
-            <Link className="btn btn-outline-light mx-1" to="/login">Login</Link>
+            {login === "Login" ? (<Link className="btn btn-outline-light mx-1" to="/login">Login</Link>):(
+              <button
+              className="btn btn-outline-light mx-1"
+              onClick={login === 'Logout' ? handleLogout : null}
+            >
+              {login}
+            </button>
+    
+            )}
+            
           </div>
         </div>
       </div>

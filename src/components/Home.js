@@ -2,13 +2,23 @@ import React, { useState, useEffect } from 'react';
 import "./Home.css"
 import { useNavigate } from "react-router-dom";
 
-export default function Home({ login }) {
+export default function Home({ login,setLogin }) {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null); // State for the product being edited
-
+  const [token,setToken] = useState(null); 
+  
+  const nav = useNavigate();
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    // Check for an existing token in local storage
+    setToken(localStorage.getItem('token'))
+    if (token) {
+      setLogin(true);
+    }
+  }, [setLogin, nav]);
 
   const fetchProducts = () => {
     fetch(`http://localhost:3001/fetch`)
@@ -27,17 +37,20 @@ export default function Home({ login }) {
       });
   };
 
-  const nav = useNavigate();
 
   const setRedirect = () => {
     nav("/login");
   };
 
+
+
   const addToCart = (product) => {
+    console.log(token);
     fetch(`http://localhost:3001/addToCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `${token}`,
       },
       body: JSON.stringify(product),
     })
