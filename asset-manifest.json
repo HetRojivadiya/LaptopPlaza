@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/LaptopPlaza/static/css/main.219bef7d.css",
+    "main.js": "/LaptopPlaza/static/js/main.b0563502.js",
+    "static/js/787.818d69ae.chunk.js": "/LaptopPlaza/static/js/787.818d69ae.chunk.js",
+    "index.html": "/LaptopPlaza/index.html",
+    "main.219bef7d.css.map": "/LaptopPlaza/static/css/main.219bef7d.css.map",
+    "main.b0563502.js.map": "/LaptopPlaza/static/js/main.b0563502.js.map",
+    "787.818d69ae.chunk.js.map": "/LaptopPlaza/static/js/787.818d69ae.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.219bef7d.css",
+    "static/js/main.b0563502.js"
+  ]
+}
