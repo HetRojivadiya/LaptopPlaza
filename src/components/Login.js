@@ -18,6 +18,7 @@ export default function Login({ setLogin }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+
     try {
       const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
@@ -44,6 +45,7 @@ export default function Login({ setLogin }) {
       console.error('Error during login:', err);
       // Handle other errors, e.g., show an error message.
     }
+  
   };
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">

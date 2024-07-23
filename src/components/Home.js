@@ -8,12 +8,13 @@ export default function Home({ login,setLogin }) {
   const [token,setToken] = useState(null); 
   
   const nav = useNavigate();
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    // Check for an existing token in local storage
+  
     setToken(localStorage.getItem('token'))
     if (token) {
       setLogin(true);
@@ -29,8 +30,9 @@ export default function Home({ login,setLogin }) {
         return response.json();
       })
       .then((data) => {
-        setProducts(data);
-        console.log(data);
+        
+        const m = data.message;
+        console.log(message);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -104,9 +106,10 @@ export default function Home({ login,setLogin }) {
       <div className="row">
         {products.map((product) => (
           <div key={product.id} className="col-md-4 mb-4">
+            
             <div className="card custom-card c">
               <img
-                src={product.image_url}
+                 src={process.env.PUBLIC_URL + product.image_url}
                 className="card-img-top custom-card-img cci"
                 alt={product.name}
               />
@@ -188,14 +191,14 @@ export default function Home({ login,setLogin }) {
                 
                 {login ? (
                   <div>
-                    <button
+                    {/* <button
                       className='btn btn-primary mr-2'
                       onClick={() => {
                         addToCart(product); 
                       }}
                     >
                       Add To Cart
-                    </button>
+                    </button> */}
                     {editingProduct && editingProduct.id === product.id ? (
                       <button
                         className='btn btn-success mx-2'

@@ -42,7 +42,7 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Error during login:", err);
     return res.status(500).json({ message: "Internal server error" });
-  }
+  } 
 });
 
 const requireAuth = (req, res, next) => {

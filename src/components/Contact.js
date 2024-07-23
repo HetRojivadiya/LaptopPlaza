@@ -2,8 +2,11 @@ export default function Contact()
 {
     return(
       <div class="container py-4 px-5 ">
-        <form id="contactForm" style={{ background: "linear-gradient(to right, #ee5a6f, #f29263)",borderRadius:"20px"}}>
+       
+        <form id="contactForm" style={{ border:"3px solid black",borderRadius:"20px"}}>
+        
           <div className="p-5">
+          <h2>Contact Us</h2>
           <div class="mb-3">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" id="name" type="text" placeholder="Name" />

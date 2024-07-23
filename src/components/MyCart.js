@@ -11,7 +11,7 @@ export default function MyCart({token}) {
     fetch(`http://localhost:3001/myCart`, {
       method: 'GET',
       headers: {
-        'Authorization': `${token}`, // Include the JWT token in the headers
+        'Authorization': `${token}`, 
       },
     })
       .then((response) => {
@@ -123,7 +123,7 @@ export default function MyCart({token}) {
                         style={{ display: "flex", marginTop: "-20px" }}
                       >
                         <img
-                          src={product.image_url}
+                          src={process.env.PUBLIC_URL + product.image_url}
                           height={"150px"}
                           width={"150px"}
                           alt={product.name}
